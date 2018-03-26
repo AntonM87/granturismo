@@ -11,7 +11,8 @@ $(document).ready(function () {
         loop: true,
         nav: true,
         navText: ['<img src="img/g202.png">',
-            '<img src="img/g206.png">'],
+            '<img src="img/g206.png">'
+        ],
         autoplay: true,
         autoplayTimeout: 2000
 
@@ -23,7 +24,8 @@ $(document).ready(function () {
         loop: true,
         nav: true,
         navText: ['<img src="img/g202.png">',
-            '<img src="img/g206.png">'],
+            '<img src="img/g206.png">'
+        ],
         autoplay: true,
         autoplayTimeout: 1000
     });
@@ -46,30 +48,38 @@ $(document).ready(function () {
 
 });
 
+var pageContainer = document.querySelector('.page-container');
+pageContainer.addEventListener('click', function (e) {
 
-document.querySelector('.page-container').addEventListener('click', fTabs);
+    var target = e.target;
+    var targetClassList = 'tab';
+    var dataTab;
 
-function fTabs(event) {
+    while (target.classList != 'page-container') {
+        if (target.classList[0] == 'tab') {
 
-    if (event.target.className == 'tab') {
+            dataTab = target.getAttribute('data-tab');
 
-        var dataTab = event.target.getAttribute('data-tab');
-
-        var tabH = document.getElementsByClassName('tab');
-        for (var j = 0; j < tabH.length; j++) {
-            tabH[j].classList.remove('tab-active');
+            tabContent(target);
+            return;
         }
-
-        event.target.classList.add('tab-active');
-
-        var tabContent = document.getElementsByClassName('wrapper');
-
-        for (var i = 0; i < tabContent.length; i++) {
-            if (dataTab == i) {
-                tabContent[i].style.display = 'inline';
-            } else {
-                tabContent[i].style.display = 'none';
-            }
-        }
+        target = target.parentNode;
     }
-}
+
+    function tabContent(target) {
+
+        var tab = document.querySelectorAll('.tab');
+        var wrapper =document.querySelectorAll('.wrapper');
+
+        for (var i = 0; i < wrapper.length; i++) {
+            wrapper[i].style.display = 'none';
+        }
+        wrapper[dataTab].style.display = 'inline';
+        
+        for (var j = 0; j < tab.length; j++) {
+            tab[j].classList.remove('tab-active');
+        }
+        tab[dataTab].classList.add('tab-active');
+
+    }
+});
